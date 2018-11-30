@@ -3,7 +3,7 @@
  * 30/11/18
  * Tutor: Karen MacKay
  * File reader/writer worksheet
- * version 1.0
+ * version 1.1
  */
 
 
@@ -51,7 +51,7 @@ public class JavaLib3Files {
 			
 			System.out.println(inputLine);  //Prints first line of text 
 			
-			while (inputLine != null) {
+			while (buffRead.readLine() != null) {
 				inputLine = buffRead.readLine();
 				System.out.println(inputLine);
 				/**

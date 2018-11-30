@@ -1,0 +1,153 @@
+/**
+ * Angus MacDonald 
+ * 30/11/18
+ * Tutor: Karen MacKay
+ * File reader/writer worksheet
+ * version 1.0
+ */
+
+
+package worksheet_javalib_3;
+
+import java.io.*;
+
+
+
+
+public class JavaLib3Files {
+	
+	static public void main(String[] args) {
+		
+		readFile("res/inputfile.txt");
+		writeFile("res/outputFile.txt", fileContents);
+		
+	
+	}
+	
+	
+	
+	/**
+	 * Method to read file as stated in main
+	 * @param filename
+	 */
+	public static void readFile(String filename) {
+		
+		File inputFile = new File(filename);  //declared file object
+		
+		FileReader reader = null;  //Reads from the input file
+		
+		BufferedReader buffRead = null;  //Reads from the input file
+		
+		/**
+		 * Try catch exception handler added in case file does not exist.
+		 */
+		try {
+			
+			reader = new FileReader(inputFile);
+			
+			buffRead = new BufferedReader(reader);
+			
+			String inputLine = buffRead.readLine();  //Temporary variable that reads the first line of the file
+			
+			System.out.println(inputLine);  //Prints first line of text 
+			
+			while (inputLine != null) {
+				inputLine = buffRead.readLine();
+				System.out.println(inputLine);
+				/**
+				 * While there is a line in the file, it will print out the file. 
+				 */
+			}
+			
+		} catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		finally {  
+			//Disposes of resources once they are finished, as is required of a buffer input.
+			if(buffRead != null)
+			{
+				try {
+					buffRead.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+
+	public static void writeFile(String filename, String[] content) {
+		
+		File outputFile = new File(filename); //declared file object
+		
+		/**
+		 * Try catch exception handler added to see if the file already exists or not.
+		 */
+		try {
+			if(outputFile.createNewFile()) { 
+				System.out.println("New file created: "+outputFile.getAbsolutePath()+"/"+outputFile.getName());
+				//If file does not exist, create new file
+			} else { 
+				System.out.println("File already exists: "+outputFile.getAbsolutePath()+"/"+outputFile.getName());
+				//If file exists then state the file path.
+			}
+		} catch(IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		FileWriter writer = null;
+		
+		BufferedWriter outputBuffer = null;
+		
+		/**
+		 * Try catch exception handler for input into created file.
+		 */
+		try {
+			writer = new FileWriter(filename);
+			
+			outputBuffer = new BufferedWriter(writer);
+			
+			for(int i = 0; i<content.length; i++) {
+				outputBuffer.write(content[i]);
+				//For loop writes what is in the array to the file.
+			}
+		
+		
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} finally {
+			//Disposes of resources once they are finished, as is required of a buffer input.
+			if(outputBuffer != null) {
+				try {
+					outputBuffer.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+				
+		}
+	}
+	
+	/**
+	 * protected string for the array that is added to the created new file.
+	 */
+	static protected String[] fileContents = {
+			"The",
+			" quick",
+			" brown",
+			" fox",
+			" jumps",
+			" over",
+			" the",
+			" lazy",
+			" dogs",
+			" tail",
+			"."
+		};
+
+
+}
